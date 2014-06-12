@@ -31,16 +31,15 @@ var parsedCSV = d3.csv.parseRows(datasetText);
 
 
 var data=[];
+var labels =[];
 for(i = 1; i< parsedCSV.length; i++) {
 
   data.push(Number(parsedCSV[i][1]))
-  console.log(parsedCSV[i][1])
+  labels.push(parsedCSV[i][0])
 }
 
-console.log(data)
-var coolData = [1, 2, 3, 4, 5];
 
-makeHorizontalBarChart(data, 500, 300, "#hella", "#00cc00", 10)
+makeHorizontalBarChart(data, labels, 700, 700, "#hella", "#00cc00", 100, 0.5)
 
 });
 

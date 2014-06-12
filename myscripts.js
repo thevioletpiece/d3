@@ -166,35 +166,53 @@ svg.selectAll("text")
    .attr("fill", "white");
 }
 
-function makeHorizontalBarChart(dataset, w, h, divId, color, padding){
+function makeHorizontalBarChart(dataset, labels, w, h, divId, color, padding, barspacing){
 //Width and height
 
 
-var yScale = d3.scale.linear()
+/*var yScale = d3.scale.linear()
                      .domain([0, d3.max(dataset, function(d) { return d; })])
-                     .range([h-padding, padding]);
+                     .range([h-padding, padding]);*/
 var xScale = d3.scale.linear()
-                     .domain([0, d3.max(dataset, function(d) { return d; })])
-                     .range([padding, w-padding]);
+                     .domain([0, 1.1*d3.max(dataset, function(d) { return d; })])
+                     .range([padding, w-2*padding]);
 
 var svg = d3.select(divId)
             .append("svg")
             .attr("width", w)
             .attr("height", h);
+svg.append("rect")
+  .attr("y", padding)
+  .attr("x", padding)
+  .attr("width", w-2*padding)
+  .attr("height", h-2*padding)
+  .attr("fill", "White")
+  .attr("stroke-width", 1)
+  .attr("stroke", "#000");
 
-
-
-svg.selectAll("rect")
+svg.selectAll("gook")
    .data(dataset)
    .enter()
    .append("rect")
    .attr("y", function(d, i) {
-    return i * (h / dataset.length);  //Bar width of 20 plus 1 for padding 
-    })
-   .attr("x", 0)
+    return padding+(i+0.5*(1-barspacing)) * ((h-2*padding) / dataset.length);  })
+   .attr("x", padding)
    .attr("width", function(d) {return xScale(d); })
-   .attr("height", 20)
+   .attr("height", barspacing*(h-2*padding) / dataset.length)
    .attr("fill", color);
+
+svg.selectAll("text")
+    .data(labels)
+    .enter()
+    .append("text")
+    .text(function(d) {return d;})
+    .attr("x", padding-5)
+    .attr("y", function(d, i) {
+    return padding+(i+(1-barspacing)) * ((h-2*padding) / labels.length);  })
+    .attr("text-anchor", "end")
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "14px");
+
 
 }
 
