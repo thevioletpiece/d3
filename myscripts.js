@@ -232,9 +232,85 @@ svg.selectAll("gook")
    .attr("fill", color)
    .attr("opacity", 0.7);
 
+}
 
+function makeBubbleChart(dataset, w, h, divId, color, padding, barspacing){
 
+var xScale = d3.scale.linear()
+  .domain([0, 1.2*d3.max(dataset, function(d) { return d[1]; })])
+  .range([padding, w-padding]);
 
+var yScale = d3.scale.linear()
+  .domain([0, 1.2*d3.max(dataset, function(d) { return d[2]; })])
+  .range([ h-padding, padding]);
+
+var xAxis =d3.svg.axis()
+  .scale(xScale)
+  .tickSize(-1, 0, 0)
+  .orient("bottom")
+
+var yAxis =d3.svg.axis()
+  .scale(yScale)
+  .tickSize(-1, 0, 0)
+  .orient("left")
+
+var svg = d3.select(divId)
+  .append("svg")
+  .attr("width", w)
+  .attr("height", h);
+
+svg.append("rect")
+  .attr("y", padding)
+  .attr("x", padding)
+  .attr("width", w-2*padding)
+  .attr("height", h-2*padding)
+  .attr("fill", "White")
+  .attr("stroke-width", 1)
+  .attr("stroke", "#000");
+
+svg.selectAll("text")
+  .data(dataset)
+  .enter()
+  .append("text")
+  .text(function(d) {return d[0];})
+  .attr("y", function(d) { return yScale(d[2]);  })
+  .attr("x", function(d) { return xScale(d[1]);  })
+  .attr("text-anchor", "begin")
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "14px");
+
+svg.append("g")
+  .attr("transform", "translate(  0 ," + (h-padding) + ")")
+  .call(xAxis)
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "14px");
+
+svg.append("g")
+  .attr("transform", "translate( 100, 0) ")
+  .call(yAxis)
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "14px");
+
+svg.selectAll("garble")
+  .data(xScale.ticks(10))
+  .enter()
+  .append("line")
+  .attr("class", "x")
+  .attr("x1", function(d, i) {return   xScale(d);})
+  .attr("x2", function(d, i) {return   xScale(d);})
+  .attr("y1", padding)
+  .attr("y2", h-padding)
+  .style("stroke", "#ccc");
+
+svg.selectAll("gook")
+   .data(dataset)
+   .enter()
+   .append("circle")
+   .attr("cy", function(d) { return yScale(d[2]);  })
+   .attr("cx", function(d) { return xScale(d[1]);  })
+   .attr("r", 10)
+   .attr("fill", color)
+   .attr("opacity", 0.7);
 
 }
 

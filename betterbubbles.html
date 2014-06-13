@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>D3 Lesson 5</title>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+
+<script src="myscripts.js"></script>
+
+
+<div id="hella"></div>
+
+
+<script type="text/javascript">
+
+
+d3.text("bubble_data.csv", function(datasetText) {
+
+var parsedCSV = d3.csv.parseRows(datasetText);
+
+
+var data=[];
+
+for(i = 1; i< parsedCSV.length; i++) {
+
+  data.push([parsedCSV[i][0], Number(parsedCSV[i][1]), Number(parsedCSV[i][2])])
+
+}
+
+console.log(data)
+
+makeBubbleChart( data, 900, 800, "#hella", "#888", 100, 0.5)
+
+});
+
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
