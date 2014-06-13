@@ -167,20 +167,21 @@ svg.selectAll("text")
 }
 
 function makeHorizontalBarChart(dataset, labels, w, h, divId, color, padding, barspacing){
-//Width and height
 
-
-/*var yScale = d3.scale.linear()
-                     .domain([0, d3.max(dataset, function(d) { return d; })])
-                     .range([h-padding, padding]);*/
 var xScale = d3.scale.linear()
-                     .domain([0, 1.1*d3.max(dataset, function(d) { return d; })])
-                     .range([padding, w-2*padding]);
+  .domain([0, 1.2*d3.max(dataset, function(d) { return d; })])
+  .range([0, w-2*padding]);
+
+var xAxis =d3.svg.axis()
+  .scale(xScale)
+  .tickSize(-1, 0, 0)
+  .orient("bottom")
 
 var svg = d3.select(divId)
-            .append("svg")
-            .attr("width", w)
-            .attr("height", h);
+  .append("svg")
+  .attr("width", w)
+  .attr("height", h);
+
 svg.append("rect")
   .attr("y", padding)
   .attr("x", padding)
@@ -189,6 +190,35 @@ svg.append("rect")
   .attr("fill", "White")
   .attr("stroke-width", 1)
   .attr("stroke", "#000");
+
+svg.selectAll("text")
+  .data(labels)
+  .enter()
+  .append("text")
+  .text(function(d) {return d;})
+  .attr("x", padding-5)
+  .attr("y", function(d, i) {
+  return padding+(i+(1-barspacing)) * ((h-2*padding) / labels.length);  })
+  .attr("text-anchor", "end")
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "14px");
+
+svg.append("g")
+  .attr("transform", "translate( " + padding + " ," + (h-padding) + ")")
+  .call(xAxis)
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "14px");
+
+svg.selectAll("garble")
+  .data(xScale.ticks(10))
+  .enter()
+  .append("line")
+  .attr("class", "x")
+  .attr("x1", function(d, i) {return padding + xScale(d);})
+  .attr("x2", function(d, i) {return padding + xScale(d);})
+  .attr("y1", padding)
+  .attr("y2", h-padding)
+  .style("stroke", "#ccc");
 
 svg.selectAll("gook")
    .data(dataset)
@@ -199,19 +229,11 @@ svg.selectAll("gook")
    .attr("x", padding)
    .attr("width", function(d) {return xScale(d); })
    .attr("height", barspacing*(h-2*padding) / dataset.length)
-   .attr("fill", color);
+   .attr("fill", color)
+   .attr("opacity", 0.7);
 
-svg.selectAll("text")
-    .data(labels)
-    .enter()
-    .append("text")
-    .text(function(d) {return d;})
-    .attr("x", padding-5)
-    .attr("y", function(d, i) {
-    return padding+(i+(1-barspacing)) * ((h-2*padding) / labels.length);  })
-    .attr("text-anchor", "end")
-    .attr("font-family", "sans-serif")
-    .attr("font-size", "14px");
+
+
 
 
 }
