@@ -18,7 +18,7 @@
 <script type="text/javascript">
 
 
-d3.text("bubble_data.csv", function(datasetText) {
+d3.text("guns.csv", function(datasetText) {
 
 var parsedCSV = d3.csv.parseRows(datasetText);
 
@@ -30,8 +30,6 @@ for(i = 1; i< parsedCSV.length; i++) {
   data.push([parsedCSV[i][0], Number(parsedCSV[i][1]), Number(parsedCSV[i][2])])
 
 }
-
-console.log(data)
 
 makeBubbleChart( data, 900, 800, "#hella", "#888", 100, 0.5)
 

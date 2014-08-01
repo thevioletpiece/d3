@@ -232,6 +232,13 @@ svg.selectAll("gook")
    .attr("fill", color)
    .attr("opacity", 0.7);
 
+svg.append("text")
+  .text("Guns Per 100 Residents")
+  .attr("x", w/2+35)
+  .attr("y", h-padding+45)
+  .attr("text-anchor", "end")
+  .attr("font-size", "16px");
+
 }
 
 function makeBubbleChart(dataset, w, h, divId, color, padding, barspacing){
