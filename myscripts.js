@@ -198,7 +198,7 @@ svg.selectAll("text")
   .text(function(d) {return d;})
   .attr("x", padding-5)
   .attr("y", function(d, i) {
-  return padding+(i+(1-barspacing)) * ((h-2*padding) / labels.length);  })
+  return padding + (i+0.25+(1-barspacing)) * ((h-2*padding) / labels.length);  })
   .attr("text-anchor", "end")
   .attr("font-family", "sans-serif")
   .attr("font-size", "14px");
@@ -234,7 +234,7 @@ svg.selectAll("gook")
 
 svg.append("text")
   .text("Guns Per 100 Residents")
-  .attr("x", w/2+35)
+  .attr("x", w/2+45)
   .attr("y", h-padding+45)
   .attr("text-anchor", "end")
   .attr("font-size", "16px");
